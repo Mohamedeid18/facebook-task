@@ -1,204 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register - InventFlow</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
     <style>
-        body {
-            background-color: #f0f2f5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 1rem;
+      body {
+        background-color: #f0f2f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 1rem;
+      }
+      .auth-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        width: 100%;
+        max-width: 450px;
+      }
+      .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .auth-header i {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+      }
+      .text-input {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        transition: all 0.2s;
+      }
+      .input-group {
+        position: relative;
+        margin-bottom: 1.25rem;
+      }
+      .input-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+      }
+      .error-text {
+        color: var(--danger-text);
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+        display: none;
+      }
+      .input-group.error input {
+        border-color: var(--danger-text);
+      }
+      .input-group.error .error-text {
+        display: block;
+      }
+      @keyframes shake {
+        0% {
+          transform: translateX(0);
         }
-        .auth-card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            width: 100%;
-            max-width: 450px;
+        25% {
+          transform: translateX(-5px);
         }
-        .auth-header {
-            text-align: center;
-            margin-bottom: 2rem;
+        50% {
+          transform: translateX(5px);
         }
-        .auth-header i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
+        75% {
+          transform: translateX(-5px);
         }
-        .text-input {
-            width: 100%;
-            padding: 0.75rem 1rem 0.75rem 2.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            transition: all 0.2s;
+        100% {
+          transform: translateX(0);
         }
-        .input-group {
-            position: relative;
-            margin-bottom: 1.25rem;
-        }
-        .input-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-        }
-        .error-text {
-            color: var(--danger-text);
-            font-size: 0.75rem;
-            margin-top: 0.25rem;
-            display: none;
-        }
-        .input-group.error input { border-color: var(--danger-text); }
-        .input-group.error .error-text { display: block; }
-
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-            100% { transform: translateX(0); }
-        }
-        .shake { animation: shake 0.3s; }
+      }
+      .shake {
+        animation: shake 0.3s;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="auth-card">
-        <div class="auth-header">
-            <i class="fa-solid fa-user-plus"></i>
-            <h2>Create Account</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">Join InventFlow to manage products</p>
-        </div>
-        
-        <form id="register-form">
-            <div class="input-group">
-                <i class="fa-regular fa-user input-icon"></i>
-                <input type="text" id="fullname" class="text-input" placeholder="Full Name">
-                <small class="error-text">Name is required</small>
-            </div>
-
-            <div class="input-group">
-                <i class="fa-regular fa-envelope input-icon"></i>
-                <input type="email" id="email" class="text-input" placeholder="Email Address">
-                <small class="error-text">Please enter a valid email</small>
-            </div>
-            
-            <div class="input-group">
-                <i class="fa-solid fa-lock input-icon"></i>
-                <input type="password" id="password" class="text-input" placeholder="Password">
-                <small class="error-text">Min 8 chars, 1 uppercase, 1 symbol</small>
-            </div>
-
-            <div class="input-group">
-                <i class="fa-solid fa-lock input-icon"></i>
-                <input type="password" id="confirm-password" class="text-input" placeholder="Confirm Password">
-                <small class="error-text">Passwords do not match</small>
-            </div>
-
-            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem; padding: 0.8rem;">
-                Register
-            </button>
-        </form>
-
-        <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
-            Already have an account? <a href="login.html" style="color: var(--primary); text-decoration: none; font-weight: 500;">Sign In</a>
+      <div class="auth-header">
+        <i class="fa-solid fa-user-plus"></i>
+        <h2>Create Account</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem">
+          Join InventFlow to manage products
         </p>
+      </div>
+
+      <form id="register-form">
+        <div class="input-group">
+          <i class="fa-regular fa-user input-icon"></i>
+          <input
+            type="text"
+            id="fullname"
+            class="text-input"
+            placeholder="Full Name"
+          />
+          <small class="error-text">Name is required</small>
+        </div>
+
+        <div class="input-group">
+          <i class="fa-regular fa-envelope input-icon"></i>
+          <input
+            type="email"
+            id="email"
+            class="text-input"
+            placeholder="Email Address"
+          />
+          <small class="error-text">Please enter a valid email</small>
+        </div>
+
+        <div class="input-group">
+          <i class="fa-solid fa-lock input-icon"></i>
+          <input
+            type="password"
+            id="password"
+            class="text-input"
+            placeholder="Password"
+          />
+          <small class="error-text">Min 8 chars, 1 uppercase, 1 symbol</small>
+        </div>
+
+        <div class="input-group">
+          <i class="fa-solid fa-lock input-icon"></i>
+          <input
+            type="password"
+            id="confirm-password"
+            class="text-input"
+            placeholder="Confirm Password"
+          />
+          <small class="error-text">Passwords do not match</small>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          style="
+            width: 100%;
+            justify-content: center;
+            margin-top: 1rem;
+            padding: 0.8rem;
+          "
+        >
+          Register
+        </button>
+      </form>
+
+      <p
+        style="
+          text-align: center;
+          margin-top: 1.5rem;
+          font-size: 0.9rem;
+          color: var(--text-muted);
+        "
+      >
+        Already have an account?
+        <a
+          href="login.html"
+          style="color: var(--primary); text-decoration: none; font-weight: 500"
+          >Sign In</a
+        >
+      </p>
     </div>
 
     <script>
-        const form = document.getElementById('register-form');
-        const nameInput = document.getElementById('fullname');
-        const emailInput = document.getElementById('email');
-        const passInput = document.getElementById('password');
-        const confirmPassInput = document.getElementById('confirm-password');
+      const form = document.getElementById("register-form");
+      const nameInput = document.getElementById("fullname");
+      const emailInput = document.getElementById("email");
+      const passInput = document.getElementById("password");
+      const confirmPassInput = document.getElementById("confirm-password");
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            let isValid = true;
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let isValid = true;
 
-            // Name
-            if (nameInput.value.length < 3) {
-                showError(nameInput, 'Name must be at least 3 chars');
-                isValid = false;
-            } else {
-                clearError(nameInput);
-            }
+        if (nameInput.value.length < 3) {
+          showError(nameInput, "Name must be at least 3 chars");
+          isValid = false;
+        } else clearError(nameInput);
 
-            // Email
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(emailInput.value)) {
-                showError(emailInput, 'Enter a valid email');
-                isValid = false;
-            } else {
-                clearError(emailInput);
-            }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailInput.value)) {
+          showError(emailInput, "Enter a valid email");
+          isValid = false;
+        } else clearError(emailInput);
 
-            // Password
-            if (passInput.value.length < 6) { 
-                showError(passInput, 'Password must be at least 6 characters');
-                isValid = false;
-            } else {
-                clearError(passInput);
-            }
+        if (passInput.value.length < 6) {
+          showError(passInput, "Password must be at least 6 characters");
+          isValid = false;
+        } else clearError(passInput);
 
-            // Confirm Password
-            if (passInput.value !== confirmPassInput.value) {
-                showError(confirmPassInput, 'Passwords do not match');
-                isValid = false;
-            } else {
-                clearError(confirmPassInput);
-            }
+        if (passInput.value !== confirmPassInput.value) {
+          showError(confirmPassInput, "Passwords do not match");
+          isValid = false;
+        } else clearError(confirmPassInput);
 
-            if (isValid) {
-                // STORAGE LOGIC
-                const users = JSON.parse(localStorage.getItem('inventory_users') || '[]');
-                
-                // Check if exists
-                if(users.some(u => u.email === emailInput.value)) {
-                    showError(emailInput, 'Email already registered');
-                    return;
-                }
+        if (isValid) {
+          const users = JSON.parse(
+            localStorage.getItem("inventory_users") || "[]"
+          );
+          if (users.some((u) => u.email === emailInput.value)) {
+            showError(emailInput, "Email already registered");
+            return;
+          }
 
-                const newUser = {
-                    name: nameInput.value,
-                    email: emailInput.value,
-                    password: passInput.value,
-                    role: 'client', // Default role
-                    joined: new Date().toLocaleDateString()
-                };
+          const newUser = {
+            name: nameInput.value,
+            email: emailInput.value,
+            password: passInput.value,
+            role: "client",
+            joined: new Date().toLocaleDateString(),
+          };
+          users.push(newUser);
+          localStorage.setItem("inventory_users", JSON.stringify(users));
 
-                users.push(newUser);
-                localStorage.setItem('inventory_users', JSON.stringify(users));
+          sessionStorage.setItem("currentUser", JSON.stringify(newUser));
+          sessionStorage.setItem("isAuthenticated", "true");
 
-                // Auto Login
-                sessionStorage.setItem('currentUser', JSON.stringify(newUser));
-                sessionStorage.setItem('isAuthenticated', 'true');
-
-                alert('Account Created Successfully!');
-                window.location.href = 'index.html';
-            } else {
-                const card = document.querySelector('.auth-card');
-                card.classList.add('shake');
-                setTimeout(() => card.classList.remove('shake'), 300);
-            }
-        });
-
-        function showError(input, msg) {
-            const group = input.parentElement;
-            group.classList.add('error');
-            group.querySelector('.error-text').textContent = msg;
+          alert("Account Created Successfully!");
+          window.location.href = "index.html";
+        } else {
+          const card = document.querySelector(".auth-card");
+          card.classList.add("shake");
+          setTimeout(() => card.classList.remove("shake"), 300);
         }
-        function clearError(input) {
-            input.parentElement.classList.remove('error');
-        }
+      });
+
+      function showError(input, msg) {
+        const group = input.parentElement;
+        group.classList.add("error");
+        group.querySelector(".error-text").textContent = msg;
+      }
+      function clearError(input) {
+        input.parentElement.classList.remove("error");
+      }
     </script>
-</body>
+  </body>
 </html>
