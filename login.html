@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - InventFlow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .auth-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            width: 100%;
+            max-width: 400px;
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .auth-header i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        .text-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem; /* Space for icon */
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 1.25rem;
+        }
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+        .error-text {
+            color: var(--danger-text);
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .input-group.error input {
+            border-color: var(--danger-text);
+        }
+        .input-group.error .error-text {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <div class="auth-header">
+            <i class="fa-solid fa-box-open"></i>
+            <h2>Welcome Back</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Sign in to access your inventory</p>
+        </div>
+        
+        <form id="login-form">
+            <div class="input-group">
+                <i class="fa-regular fa-envelope input-icon"></i>
+                <input type="email" id="email" class="text-input" placeholder="Email Address">
+                <small class="error-text">Please enter a valid email address</small>
+            </div>
+            
+            <div class="input-group">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" id="password" class="text-input" placeholder="Password">
+                <small class="error-text">Password is required</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem; padding: 0.8rem;">
+                Sign In
+            </button>
+        </form>
+
+        <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+            Don't have an account? <a href="register.html" style="color: var(--primary); text-decoration: none; font-weight: 500;">Register Now</a>
+        </p>
+    </div>
+
+    <script>
+        // SEED ADMIN USER
+        (function seedAdmin() {
+            let users = JSON.parse(localStorage.getItem('inventory_users') || '[]');
+            if (!users.some(u => u.role === 'admin')) {
+                users.push({
+                    name: 'System Admin',
+                    email: 'admin@admin.com',
+                    password: '123456',
+                    role: 'admin',
+                    joined: new Date().toLocaleDateString()
+                });
+                localStorage.setItem('inventory_users', JSON.stringify(users));
+            }
+        })();
+
+        const form = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const passInput = document.getElementById('password');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isValid = true;
+
+            // Simple Validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!emailRegex.test(emailInput.value)) {
+                setEmailError('Please enter a valid email');
+                isValid = false;
+            } else {
+                clearError(emailInput);
+            }
+
+            if (passInput.value.length < 1) {
+                setPassError('Password is required');
+                isValid = false;
+            } else {
+                clearError(passInput);
+            }
+
+            if (isValid) {
+                // CHECK CREDENTIALS
+                const users = JSON.parse(localStorage.getItem('inventory_users') || '[]');
+                const user = users.find(u => u.email === emailInput.value && u.password === passInput.value);
+
+                if (user) {
+                    // Success
+                    const currentUser = {
+                        name: user.name,
+                        email: user.email,
+                        role: user.role
+                    };
+
+                    sessionStorage.setItem('isAuthenticated', 'true');
+                    sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+                    window.location.href = 'index.html';
+                } else {
+                    setEmailError('Invalid credentials');
+                    setPassError('Invalid credentials');
+                }
+            }
+        });
+
+        function setEmailError(msg) {
+            const group = emailInput.parentElement;
+            group.classList.add('error');
+            group.querySelector('.error-text').textContent = msg;
+        }
+        function setPassError(msg) {
+            const group = passInput.parentElement;
+            group.classList.add('error');
+            group.querySelector('.error-text').textContent = msg;
+        }
+        function clearError(input) {
+            input.parentElement.classList.remove('error');
+        }
+    </script>
+</body>
+</html>

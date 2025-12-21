@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InventFlow - Inventory Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-box-open logo-icon"></i>
+                <h1>InventFlow</h1>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-view="dashboard">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </a>
+                <!-- Admin Only: Users -->
+                <a href="#" class="nav-item" id="nav-users" data-view="users">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Users</span>
+                </a>
+                <a href="#" class="nav-item" data-view="products">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    <span>Products</span>
+                </a>
+                 <!-- Shared: Orders -->
+                 <a href="#" class="nav-item" data-view="orders">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Orders</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="avatar" id="current-user-avatar">--</div>
+                    <div>
+                        <p class="user-name" id="current-user-name">Loading...</p>
+                        <p class="user-role" id="current-user-role">...</p>
+                    </div>
+                </div>
+                <button id="logout-btn" class="btn btn-ghost btn-sm" style="color: #ef4444; width: 100%; justify-content: center; margin-top: 1rem; border: 1px solid rgba(239, 68, 68, 0.2);" title="Logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sign Out</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div style="display: flex; align-items: center;">
+                    <button id="sidebar-toggle" class="mobile-toggle">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h2 id="page-title">Dashboard Overview</h2>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-icon">
+                        <i class="fa-regular fa-bell"></i>
+                    </button>
+                    <!-- Add Product Button (Hidden for Clients via JS) -->
+                    <button id="btn-add-product" class="btn btn-primary">
+                        <i class="fa-solid fa-plus"></i>
+                        Add Product
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-scroll">
+                
+                <!-- VIEW: DASHBOARD -->
+                <div id="view-dashboard" class="view-section">
+                    <div class="stats-grid">
+                        <div class="stat-card" data-type="total">
+                            <div class="stat-icon bg-blue-100 text-blue-600">
+                                <i class="fa-solid fa-cubes"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Products</h3>
+                                <p class="stat-value" id="total-count">0</p>
+                            </div>
+                        </div>
+                        
+                       
+    
+                        <div class="stat-card" data-type="out-of-stock">
+                            <div class="stat-icon bg-red-100 text-red-600">
+                                <i class="fa-solid fa-circle-xmark"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Out of Stock</h3>
+                                <p class="stat-value" id="out-of-stock-count">0</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card" data-type="value">
+                            <div class="stat-icon bg-green-100 text-green-600">
+                                <i class="fa-solid fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Value</h3>
+                                <p class="stat-value" id="total-value">$0</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions / Recent (Optional visual filler) -->
+                    <div class="dashboard-widgets" style="margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="widget-card" style="background: white; padding: 1.5rem; border-radius: 0.75rem; box-shadow: var(--shadow-sm);">
+                            <h3 style="margin-bottom: 1rem; font-size: 1rem;">Quick Actions</h3>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <button class="btn btn-outline btn-sm action-link" data-target="products">Manage Inventory</button>
+                                <button class="btn btn-outline btn-sm" onclick="window.downloadReport()">Download Report</button>
+                            </div>
+                        </div>
+                        <div class="widget-card" style="background: white; padding: 1.5rem; border-radius: 0.75rem; box-shadow: var(--shadow-sm);">
+                            <h3 style="margin-bottom: 1rem; font-size: 1rem;">System Status</h3>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--success-text);">
+                                <i class="fa-solid fa-check-circle"></i>
+                                <span>All systems operational</span>
+                            </div>
+                            <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">Last synced: Just now</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW: PRODUCTS -->
+                <div id="view-products" class="view-section hidden">
+                    <section class="products-section">
+                        <div class="controls-bar">
+                            <div class="search-wrapper">
+                                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                                <input type="text" id="search-input" placeholder="Search products by name, category...">
+                            </div>
+                            <div class="filter-wrapper">
+                                <select id="category-filter">
+                                    <option value="">All Categories</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Clothing">Clothing</option>
+                                    <option value="Home">Home</option>
+                                    <option value="Accessories">Accessories</option>
+                                </select>
+                            </div>
+                        </div>
+    
+                        <div class="table-container">
+                            <div id="loading-spinner" class="spinner hidden"></div>
+                            <div id="error-message" class="error-message hidden">
+                                <p>Error loading data.</p>
+                                <button id="btn-retry" class="btn btn-sm btn-outline">Retry</button>
+                            </div>
+                            
+                            <table class="products-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="products-table-body">
+                                    <!-- Rows will be injected here -->
+                                </tbody>
+                            </table>
+                            
+                            <div id="empty-state" class="empty-state hidden">
+                                <div class="empty-icon">
+                                    <i class="fa-solid fa-box-open"></i>
+                                </div>
+                                <p>No products found</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- VIEW: USERS (Admin Only) -->
+                <div id="view-users" class="view-section hidden">
+                     <div class="products-section">
+                        <div class="controls-bar">
+                            <h3>Registered Users</h3>
+                        </div>
+                        <div class="table-container">
+                            <table class="products-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Password</th> 
+                                        <th>Joined</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="users-table-body"></tbody>
+                            </table>
+                        </div>
+                     </div>
+                </div>
+
+                <!-- VIEW: ORDERS -->
+                <div id="view-orders" class="view-section hidden">
+                    <div class="products-section">
+                       <div class="controls-bar">
+                           <h3>Order History</h3>
+                           <div class="filter-wrapper">
+                                <!-- Order specific filters could go here -->
+                           </div>
+                       </div>
+                       <div class="table-container">
+                           <table class="products-table">
+                               <thead>
+                                   <tr>
+                                       <th>Order ID</th>
+                                       <th>User</th>
+                                       <th>Product</th>
+                                       <th>Qty</th>
+                                       <th>Total</th>
+                                       <th>Date</th>
+                                       <th>Status</th>
+                                       <th>Action</th>
+                                   </tr>
+                               </thead>
+                               <tbody id="orders-table-body">
+                                   <!-- Orders injected here -->
+                               </tbody>
+                           </table>
+                           <div id="orders-empty-state" class="empty-state hidden">
+                                <div class="empty-icon">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </div>
+                                <p>No orders found</p>
+                            </div>
+                       </div>
+                    </div>
+               </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals (Same as before) -->
+    <div id="product-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Add New Product</h3>
+                <button class="btn-close modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+                <div class="form-group">
+                    <label for="product-name">Product Name</label>
+                    <input type="text" id="product-name" required placeholder="e.g., Wireless Mouse">
+                </div>
+                <div class="form-group">
+                    <label for="product-category">Category</label>
+                    <select id="product-category" required>
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Home">Home</option>
+                        <option value="Accessories">Accessories</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-image">Image URL</label>
+                    <div style="display:flex; gap:0.5rem;">
+                        <input type="url" id="product-image" placeholder="https://example.com/image.jpg" class="text-input" style="flex:1;">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="window.open(document.getElementById('product-image').value, '_blank')" title="Preview">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="product-price">Price ($)</label>
+                        <input type="number" id="product-price" required min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-quantity">Quantity</label>
+                        <input type="number" id="product-quantity" required min="0" placeholder="0">
+                        <div class="stock-quick-actions" style="margin-top:0.5rem; display:flex; gap:0.5rem;">
+                            <button type="button" id="btn-stock-in" class="btn btn-xs btn-outline" style="font-size: 0.7rem; padding: 0.2rem 0.5rem; color: var(--success-text); border-color: var(--success-text);">In Stock</button>
+                            <button type="button" id="btn-stock-out" class="btn btn-xs btn-outline" style="font-size: 0.7rem; padding: 0.2rem 0.5rem; color: var(--danger-text); border-color: var(--danger-text);">Out of Stock</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-ghost modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="details-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Product Details</h3>
+                <button class="btn-close details-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="details-body" id="details-body"></div>
+            <div class="modal-actions">
+                <button class="btn btn-ghost details-close">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
