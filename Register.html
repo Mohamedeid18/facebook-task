@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Register</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <main class="page">
+        <div class="card single">
+            
+            <div class="card-form">
+                <h2>facebook</h2>
+
+                <form action="#" method="post" class="register-form">
+                    <div class="row">
+                        <input type="text" name="first_name" placeholder="First name" required>
+                        <input type="text" name="last_name" placeholder="Last name" required>
+                    </div>
+
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="New password" required>
+
+                    <label class="label">Birthday</label>
+                    <div class="row small">
+                        <input type="text" name="month" placeholder="MM" required>
+                        <input type="text" name="day" placeholder="DD" required>
+                        <input type="text" name="year" placeholder="YYYY" required>
+                    </div>
+
+                    <label class="label">Gender</label>
+                    <div class="row radios">
+                        <label><input type="radio" name="gender" value="female" required> Female</label>
+                        <label><input type="radio" name="gender" value="male"> Male</label>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">Sign Up</button>
+                    <a href="Login.html" class="small login">Already have an account? </a>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

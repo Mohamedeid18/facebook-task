@@ -1,0 +1,206 @@
+:root {
+  --bg: #f0f2f5;
+  --card: #ffffff;
+  --brand: #0866ff;
+  --text: #1c1e21;
+  --muted: #606770;
+  --btn:#0ad10a;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.card {
+  width: 100%;
+  max-width: 980px;
+  background: transparent;
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+}
+.card.single {
+  max-width: 520px;
+}
+.card-media {
+  flex: 1;
+  color: var(--brand);
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.brand h1 {
+  margin: 0;
+  font-size: 4rem;
+  letter-spacing: -1px;
+}
+.brand p {
+  margin-top:1.25rem;
+  color: var(--text);
+  font-size: 1.2rem;
+}
+.card-form {
+  flex: 1;
+}
+.card-form h2{
+  font-size: 3.5rem;
+  text-align: center;
+  color: var(--brand);
+  margin: 0 0 1rem 0;
+}
+.card-form p{
+  text-align: center;
+}
+.card-form p span {
+  font-weight: 600;
+}
+
+form {
+  display: block;
+  background: var(--card);
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 0.725rem 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+}
+.row {
+  display: flex;
+  gap: 12px;
+}
+.row.small input {
+  padding: 10px;
+  text-align: center;
+}
+.row.radios {
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+}
+label.label {
+  display: block;
+  margin-top: 8px;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary {
+  background: var(--brand);
+  color: white;
+  width: 100%;
+  font-size: 16px;
+  margin-top:.8rem
+}
+.btn-outline {
+  background: var(--btn);
+  border: 1px solid #ccd0d5;
+  color: white;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  width: 70%;
+  margin:auto;
+}
+
+.aux {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+.aux .link {
+  color: var(--brand);
+  text-decoration: none;
+  font-size: 14px;
+  text-align: center;
+}
+.aux hr{
+  background-color: var(--text);
+  opacity: 0.4;
+  border: none;
+  width:100%;
+  height: 1px;
+}
+.small {
+  color: var(--brand);
+  font-size: 14px;
+  margin-top: 1.25rem;
+}
+.login{
+  display:block;
+  color: var(--brand);
+  font-size: 1rem;
+  margin-top: 1.25rem;
+  text-decoration: none;
+  text-align: center;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (min-width: 900px) {
+  .card {
+    background: transparent;
+  }
+  .card-media {
+    border-radius: 8px 0 0 8px;
+  }
+  .card-form {
+    border-radius: 0 8px 8px 0;
+  }
+}
+
+@media (max-width: 899px) {
+  .card {
+    flex-direction: column;
+  }
+  .card-media {
+    order: 1;
+    padding: 28px;
+    border-radius: 8px;
+  }
+  .card-form {
+    order: 2;
+  }
+  .row {
+    flex-direction: column;
+  }
+}
